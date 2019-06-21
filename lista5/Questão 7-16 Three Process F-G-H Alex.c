@@ -1,3 +1,23 @@
+/*
+Possiveis interacoes entre G e F
+F send fval()
+...
+G receive fval()
+...
+G send fresp()
+...
+F receive fresp()
+
+Possiveis interacoes entre G e H
+H send hval()
+...
+G receive hval()
+...
+G send hresp()
+...
+H receive hresp()
+*/
+
 chan fval(int);
 chan fresp(int);
 chan hval(int);
