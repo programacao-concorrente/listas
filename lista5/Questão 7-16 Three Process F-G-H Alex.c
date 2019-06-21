@@ -1,26 +1,31 @@
-chan pval(int), hval(int), presp(int), hresp(int), p(int), g(int);
+chan f(int); 
+chan g(int);
+chan fval(int);
+chan fresp(int);
+chan hval(int);
+chan hresp(int);
 
 process G{
 int i=0;
 int v[]; //assume init
-int p, h;
-	receive pval(p);
+int f, h;
+	receive fval(f);
 	receive hval(h);
 
 	while(true){
-		if (v[i] == p && v[i] == h){
-			send presp(v[i]);
+		if (v[i] == f && v[i] == h){
+			send fresp(v[i]);
 			send hresp(v[i]);
-			if (!empty(pval)){
-				receive pval(p)
+			if (!empty(fval)){
+				receive fval(f)
 			}
 			if (!empty(hval)){
 				receive hval(h);
 			}
 			break
 		}
-		if (v[i] >= p){
-			receive pval(p);
+		if (v[i] >= f){
+			receive fval(f);
 		}
 		if (v[i] >= h){
 			receive hval(h);
@@ -28,15 +33,15 @@ int p, h;
 	}
 }
 
-process P{
+process F{
 	int res;
 	int v[]; //init
 
 	for (i=0 to len(v)){
-		if (empty(presp)){
-			send_sync pval(v[i]);
+		if (empty(fresp)){
+			send_sync fval(v[i]);
 		}else{
-			receive presp(res);
+			receive fresp(res);
 		}
 	}
 	return res;
