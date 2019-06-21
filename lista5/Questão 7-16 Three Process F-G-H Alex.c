@@ -1,5 +1,3 @@
-chan f(int); 
-chan g(int);
 chan fval(int);
 chan fresp(int);
 chan hval(int);
