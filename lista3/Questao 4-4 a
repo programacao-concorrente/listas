@@ -1,0 +1,49 @@
+//Questao 4.4 a)
+
+Sejam 4 semaforos: A, B, C e D
+
+Sejam 5 processos, sendo um para cada tarefa i: P1, P2, P3, P4 e P5
+
+Para o fluxo 1: P1 -> P2 -> P4 -> P5
+
+Para o fluxo 2: P1 -> P3 -> P5
+
+P2 so executa quando P1 concluir
+P3 so executa quando P1 concluir
+P4 so executa quando P2 concluir
+P5 so executa quando P4 e P3 concluir
+
+P1{
+..
+V(A);
+V(A);
+..
+}
+
+P2{
+..
+P(A);
+V(B);
+..
+}
+
+P3{
+..
+P(A);
+V(D);
+..
+}
+
+P4{
+..
+P(B);
+V(C);
+..
+}
+
+P5{
+..
+P(D);
+P(C);
+..
+}
