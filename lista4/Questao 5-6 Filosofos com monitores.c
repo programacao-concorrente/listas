@@ -1,15 +1,19 @@
 //Questao 5-6 Filosofos com monitores
 // Dining-Philosophers Solution Using Monitors 
 monitor DP 
-{ 
-	status state[5]; 
+{ 	
+	status = enum('hungry', 'eating', 'thinking');	
+	/*
+	status(1) = 'hungry', status(2) = 'eating', status(3) = 'thinking'	
+	*/
+	char state[5]; 
 	condition self[5]; 
 
-	// Pickup chopsticks 
-	Pickup(int i) 
+	// Pickup forks 
+	request_forks(int i) 
 	{ 
 		// indicate that I’m hungry 
-		state[i] = hungry; 
+		state[i] = status(1); //hungry; 
 
 		// set state to eating in test() 
 		// only if my left and right neighbors 
@@ -17,16 +21,16 @@ monitor DP
 		test(i); 
 
 		// if unable to eat, wait to be signaled 
-		if (state[i] != eating) 
+		if (state[i] != status(2)) // state[i] != eating 
 			self[i].wait; 
 	} 
 
-	// Put down chopsticks 
-	Putdown(int i) 
+	// Put down forks
+	release_forks(int i) 
 	{ 
 
 		// indicate that I’m thinking 
-		state[i] = thinking; 
+		state[i] = status(3); //thinking; 
 
 		// if right neighbor R=(i+1)%5 is hungry and 
 		// both of R’s neighbors are not eating, 
@@ -38,11 +42,9 @@ monitor DP
 
 	test(int i) 
 	{ 
-
-		if ((state[(i + 1) % 5] != eating) && (state[(i + 4) % 5] != eating) && (state[i] == hungry)) { 
+		if ((state[(i + 1) % 5] != status(2)) && (state[(i + 4) % 5] != status(2)) && (state[i] == status(1))) { 
 			// indicate that I’m eating 
-			state[i] = eating; 
-
+			state[i] = status(2); 
 			// signal() has no effect during Pickup(), 
 			// but is important to wake up waiting 
 			// hungry philosophers during Putdown() 
@@ -56,10 +58,11 @@ monitor DP
 		// Execution of Pickup(), Putdown() and test() 
 		// are all mutually exclusive, 
 		// i.e. only one at a time can be executing 
-		for(int i=0; i < 4; i++)
+		for(int i=0; i < 4; i++){
 		// Verify that this monitor-based solution is 
 		// deadlock free and mutually exclusive in that 
 		// no 2 neighbors can eat simultaneously 
-		state[i] = thinking; 
+			state[i] = status(3);//thinking 
+		}
 	} 
 } // end of monitor 
