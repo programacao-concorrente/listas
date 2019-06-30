@@ -22,7 +22,7 @@ monitor DP
 
 		// if unable to eat, wait to be signaled 
 		if (state[i] != status(2)) // state[i] != eating 
-			self[i].wait; 
+			wait(self[i]); 
 	} 
 
 	// Put down forks
@@ -42,13 +42,14 @@ monitor DP
 
 	test(int i) 
 	{ 
+		//Checa se o vizinho da direita nao esta comendo e se o vizionho da direita nao esta comendo e o requisitante esta com fome
 		if ((state[(i + 1) % 5] != status(2)) && (state[(i + 4) % 5] != status(2)) && (state[i] == status(1))) { 
 			// indicate that I’m eating 
 			state[i] = status(2); 
 			// signal() has no effect during Pickup(), 
 			// but is important to wake up waiting 
 			// hungry philosophers during Putdown() 
-			self[i].signal(); 
+			signal(self[i]); 
 		} 
 	} 
 
