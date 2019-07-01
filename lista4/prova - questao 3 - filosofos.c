@@ -8,7 +8,7 @@ monitor DP
 	request_forks(int i) 
 	{ 
 		state[i] = status(0); //hungry; 
-		test(i); 
+		testVizinhos(i); 
 		if (state[i] != status(1)){ // state[i] != eating 
 			wait(filosofo[i]); 
 		}
