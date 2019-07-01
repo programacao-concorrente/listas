@@ -13,7 +13,7 @@ int cont=0;
 cond not_full;
 cond not_empty;
 
-procedure deposit(int data){
+deposit(int data){
   while(cont == n) {
     wait(not_full);
   }
@@ -25,7 +25,7 @@ procedure deposit(int data){
   signal(not_empty);
 }
 
-proceduce fetch(int &data){
+fetch(int &data){
   while(cont == 0){
     wait(not_empty);   
   }
