@@ -8,27 +8,30 @@ monitor DP
 	request_forks(int i) 
 	{ 
 		state[i] = status(0); //hungry; 
-
 		test(i); 
-
-		if (state[i] != status(1)) // state[i] != eating 
+		if (state[i] != status(1)){ // state[i] != eating 
 			wait(filosofo[i]); 
+		}
 	} 
 
 	// Put down forks
 	release_forks(int i) 
 	{ 
 		state[i] = status(2); //thinking; 
-
-		test((i + 1) % 5); //testa a condicao do vizinho da direita e seta o status do filosofo[i]
-		test((i + 4) % 5); //testa a condicao do vizinho da esquerda e seta o status do filosofo[i]
+		testVizinhos(i);
 	} 
+	
+	status stateVizinhoDireita(int i){
+		return state[(i+1)%5];
+	}
+	
+	status stateVizinhoEsquerda(int i){
+		return state[(i+4)%5];
+	}
 
-	test(int i) 
+	testVizinhos(int i) 
 	{ 
-		if ((state[(i + 1) % 5] != status(1)) && 
-        (state[(i + 4) % 5] != status(1)) && 
-        (state[i] == status(0))) { 
+		if (stateVizinhoDireita(i) != status(1)) && (stateVizinhoEsquerada(i) != status(1)) && (state[i] == status(0))) { 
 			state[i] = status(1); 
 			signal(filosofo[i]); 
 		} 
