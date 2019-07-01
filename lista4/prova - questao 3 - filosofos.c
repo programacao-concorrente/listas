@@ -1,15 +1,15 @@
 monitor DP 
 { 	
 	status = enum('hungry', 'eating', 'thinking');	
-	char state[5]; 
+	char sentimento[5]; 
 	cond filosofo[5]; 
 
 	// Pickup forks 
 	request_forks(int i) 
 	{ 
-		state[i] = status(0); //hungry; 
-		testVizinhos(i); 
-		if (state[i] != status(1)){ // state[i] != eating 
+		sentimento[i] = status(0); //hungry; 
+		testaVizinhos(i); 
+		if (sentimento[i] != status(1)){ // state[i] != eating 
 			wait(filosofo[i]); 
 		}
 	} 
@@ -17,22 +17,22 @@ monitor DP
 	// Put down forks
 	release_forks(int i) 
 	{ 
-		state[i] = status(2); //thinking; 
-		testVizinhos(i);
+		sentimento[i] = status(2); //thinking; 
+		testaVizinhos(i);
 	} 
 	
-	status stateVizinhoDireita(int i){
-		return state[(i+1)%5];
+	status statusVizinhoDireita(int i){
+		return sentimento[(i+1)%5];
 	}
 	
-	status stateVizinhoEsquerda(int i){
-		return state[(i+4)%5];
+	status statusVizinhoEsquerda(int i){
+		return sentimento[(i+4)%5];
 	}
 
-	testVizinhos(int i) 
+	testaVizinhos(int i) 
 	{ 
-		if (stateVizinhoDireita(i) != status(1)) && (stateVizinhoEsquerada(i) != status(1)) && (state[i] == status(0))) { 
-			state[i] = status(1); 
+		if (statusVizinhoDireita(i) != status(1)) && (statusVizinhoEsquerada(i) != status(1)) && (sentimento[i] == status(0))) { 
+			sentimento[i] = status(1); 
 			signal(filosofo[i]); 
 		} 
 	} 
@@ -40,7 +40,7 @@ monitor DP
 	init() 
 	{ 
 		for(int i=0; i < 4; i++){
-			state[i] = status(2);//thinking 
+			sentimento[i] = status(2);//thinking 
 		}
 	} 
 } // end of monitor 
