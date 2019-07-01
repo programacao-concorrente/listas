@@ -13,10 +13,28 @@ int cont=0;
 cond not_full;
 cond not_empty;
 
-procedure deposit(){
+procedure deposit(int data){
+  while(cont == n) {
+    wait(not_full);
+  }
+  
+  buf[rear] = data;
+  rear = (rear + 1) % n;
+  cont = cont + 1; 
+  
+  signal(not_empty);
 }
 
-proceduce fetch(){
+proceduce fetch(int &data){
+  while(cont == 0){
+    wait(not_empty);   
+  }
+  
+  data = buf[first];
+  first = (first + 1) % n;
+  cont = cont - 1;
+  
+  signal(not_full);
 }
 
 }
